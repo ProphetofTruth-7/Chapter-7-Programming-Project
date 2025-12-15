@@ -36,19 +36,32 @@ int main()
     char answerKeyArray[numberOfQuestions];
     int wrongAnswers = 0;
 
-    int wrongAnswerArray[numberOfQuestions];
-    char comparisonArray[numberOfQuestions][2];
+    int wrongAnswerArray[20];
+    char comparisonArray[20][2];
 
     storeStudentAnswers(studentAnswers, numberOfQuestions, studentScoreArray);
     storeAnswerKey(correctAnswers, numberOfQuestions, answerKeyArray);
     compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswers, wrongAnswerArray, comparisonArray);
 
-    cout << wrongAnswerArray[4];
+    int testingVar = wrongAnswerArray[3];
+
+    cout << "Testing VAR: " << testingVar << endl;
+    cout << "Testing VAR: " << wrongAnswerArray[3] << endl;
+
+
+    cout << comparisonArray[testingVar-1][1];
 
     return 0;
 }
 
+
+
+
 // Functions Below
+
+
+
+
 
 
 void storeStudentAnswers(string x, int y, char funcArray[]) {
