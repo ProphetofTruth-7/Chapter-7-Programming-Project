@@ -8,23 +8,7 @@ using namespace std;
 
 void storeStudentAnswers(string x, int y, char funcArray[]); //This prototype establishes a function that stores the student's answers into an array for future comparison/grading
 void storeAnswerKey(string x, int y, char funcArray[]); //This prototype establishes a function that stores the answer key into an array for future comparison
-
-
-void compareAnswers(char funcArray1[], char funcArray2[], int y, int &z, int funcArray3[], char funcArray4[][2]) {
-    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
-        if (funcArray1[incrementCount] == funcArray2[incrementCount]) {
-
-        }
-        else {
-            ++z;
-            funcArray3[incrementCount] = incrementCount + 1;
-            funcArray4[incrementCount][1] = funcArray1[incrementCount];
-            funcArray4[incrementCount][2] = funcArray2[incrementCount];
-        }
-
-    }
-    cout << "You got this many wrong: " << z << endl;
-}
+void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[], char funcArray4[][2], int& z); //This prototype establishes a function that compares the two arrays
 
 int main()
 {
@@ -36,20 +20,16 @@ int main()
     char answerKeyArray[numberOfQuestions];
     int wrongAnswers = 0;
 
+    storeStudentAnswers(studentAnswers, numberOfQuestions, studentScoreArray);
+    storeAnswerKey(correctAnswers, numberOfQuestions, answerKeyArray);
+
     int wrongAnswerArray[20];
     char comparisonArray[20][2];
 
-    storeStudentAnswers(studentAnswers, numberOfQuestions, studentScoreArray);
-    storeAnswerKey(correctAnswers, numberOfQuestions, answerKeyArray);
-    compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswers, wrongAnswerArray, comparisonArray);
-
-    int testingVar = wrongAnswerArray[3];
-
-    cout << "Testing VAR: " << testingVar << endl;
-    cout << "Testing VAR: " << wrongAnswerArray[3] << endl;
-
-
-    cout << comparisonArray[testingVar-1][1];
+    compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswerArray, comparisonArray, wrongAnswers);
+    cout << wrongAnswerArray[1] << endl;
+    cout << "Question " << wrongAnswerArray[2] << "     Comparison(student): " << comparisonArray[3][0] << "      Comparison(correct): " << comparisonArray[3][1] << endl;
+    cout << "You've gotten this many wrong: " << wrongAnswers;
 
     return 0;
 }
@@ -94,4 +74,21 @@ void storeAnswerKey(string x, int y, char funcArray[]) {
         funcArray[incrementCount] = answer;
     }
     inFile.close();
+}
+void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[], char funcArray4[][2], int& z) {
+    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
+        if (funcArray1[incrementCount] == funcArray2[incrementCount]) {
+            funcArray3[incrementCount] = 0;
+            funcArray4[incrementCount][0] = 'X';
+            funcArray4[incrementCount][1] = 'X';
+        }
+        else {
+            funcArray3[incrementCount] = incrementCount + 1;
+            cout << "Increment(" << incrementCount << ").   Array Value(" << funcArray3[incrementCount] << ")" << endl;    //This properly stores the specific question missed
+            funcArray4[incrementCount + 1][0] = funcArray1[incrementCount];
+            funcArray4[incrementCount + 1][1] = funcArray2[incrementCount];
+            ++z;
+        }
+
+    }
 }
