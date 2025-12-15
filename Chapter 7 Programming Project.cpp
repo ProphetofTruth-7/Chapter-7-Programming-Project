@@ -1,4 +1,4 @@
-// This is the Main Branch! Locate the sub-branches to grade!
+// This is the Exam Grader subproject
 
 #include <iostream>
 using namespace std;
