@@ -1,10 +1,10 @@
-// This is the Main Branch! Locate the sub-branches to grade!
+// This is the Tic Tac Toe Subproject
 
 #include <iostream>
 using namespace std;
 
 int main()
 {
-    cout << "Main Branch!";
+    cout << "Ro Sham Bo!";
     return 0;
 }
