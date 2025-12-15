@@ -4,11 +4,27 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <iomanip>
 using namespace std;
 
 void storeStudentAnswers(string x, int y, char funcArray[]); //This prototype establishes a function that stores the student's answers into an array for future comparison/grading
 void storeAnswerKey(string x, int y, char funcArray[]); //This prototype establishes a function that stores the answer key into an array for future comparison
 void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[], char funcArray4[][2], int& z); //This prototype establishes a function that compares the two arrays
+
+void writeReport(int funcArray1[], char funcArray2[][2], int y, int z) {
+    cout << "                   Exam Report" << endl;
+    cout << "Number of Questions Missed: " << z << endl;
+    cout << "Missed Questions and Correct Answers:" << endl;
+    cout << "Question       Correct Answer       Your Answer" << endl;
+    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
+        if (funcArray1[incrementCount] == 0) {
+
+        }
+        else {
+            cout << funcArray1[incrementCount] << setw(20) << funcArray2[incrementCount+1][0] << setw(20) << funcArray2[incrementCount+1][1] << endl;
+        }
+    }
+}
 
 int main()
 {
@@ -27,7 +43,12 @@ int main()
     char comparisonArray[20][2];
 
     compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswerArray, comparisonArray, wrongAnswers);
-    cout << wrongAnswerArray[1] << endl;
+
+
+
+    cout << "Testing: " << wrongAnswerArray[8] << endl;
+    cout << "Testing2: " << comparisonArray[8][0] << endl;  //This relates directly to question 9 on the File. For some reason, it returns an odd symbol ONLY here. It stores properly in the function compareAnswers
+
     cout << "Question " << wrongAnswerArray[2] << "     Comparison(student): " << comparisonArray[3][0] << "      Comparison(correct): " << comparisonArray[3][1] << endl;
     cout << "You've gotten this many wrong: " << wrongAnswers;
 
