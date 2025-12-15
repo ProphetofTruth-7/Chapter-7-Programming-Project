@@ -44,8 +44,6 @@ int main()
 
     compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswerArray, comparisonArray, wrongAnswers);
 
-
-
     cout << "Testing: " << wrongAnswerArray[8] << endl;
     cout << "Testing2: " << comparisonArray[8][0] << endl;  //This relates directly to question 9 on the File. For some reason, it returns an odd symbol ONLY here. It stores properly in the function compareAnswers
 
@@ -105,10 +103,11 @@ void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[
         }
         else {
             funcArray3[incrementCount] = incrementCount + 1;
-            cout << "Increment(" << incrementCount << ").   Array Value(" << funcArray3[incrementCount] << ")" << endl;    //This properly stores the specific question missed
+            cout << "Increment(" << incrementCount << ").   Array Value(" << funcArray3[incrementCount] << ")" << endl;    //This verifies that the function properly stores the specific question missed
             funcArray4[incrementCount + 1][0] = funcArray1[incrementCount];
             funcArray4[incrementCount + 1][1] = funcArray2[incrementCount];
-            ++z;
+            cout << funcArray4[incrementCount + 1][0] << " and " << funcArray4[incrementCount + 1][1] << endl; //This verifies that each incorrect choice and correct answer are stored together
+            ++z; //And yet, the main function corrupts Line 111's verification
         }
 
     }
