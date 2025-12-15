@@ -3,8 +3,15 @@
 #include <iostream>
 using namespace std;
 
+char boardMaker(char boardArray[][3]) {
+    for ()
+}
+
 int main()
 {
-    cout << "Ro Sham Bo!";
+    char TTTBoard[3][3];
+
+
+
     return 0;
 }
