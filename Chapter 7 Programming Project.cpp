@@ -24,7 +24,7 @@ int main()
     storeStudentAnswers(studentAnswers, numberOfQuestions, studentScoreArray);
     storeAnswerKey(correctAnswers, numberOfQuestions, answerKeyArray);
 
-    int wrongAnswerArray[20]; // An array that stores twenty zeroes. compareAnswers replaces Index with the Question number they got wrong
+    int wrongAnswerArray[20];
 
 
     int wrongAnswers = calcWrongAnswers(studentScoreArray, answerKeyArray, wrongAnswerArray, numberOfQuestions);
