@@ -34,8 +34,7 @@ void teamGathering(string x, vector<string>& TeamVector) {
     }
     getline(inFile, line);
 
-    TeamVector.push_back(line);
-    cout << TeamVector.at(1) << endl;
+    cout << line;
     
     inFile.close();
 }
