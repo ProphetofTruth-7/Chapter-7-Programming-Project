@@ -7,11 +7,11 @@
 #include <iomanip>
 using namespace std;
 
-void storeStudentAnswers(string x, int y, char funcArray[]); //This prototype establishes a function that stores the student's answers into an array for future comparison/grading
-void storeAnswerKey(string x, int y, char funcArray[]); //This prototype establishes a function that stores the answer key into an array for future comparison
-void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[], char funcArray4[][2], int& z); //This prototype establishes a function that compares the two arrays
+void storeStudentAnswers(string x, int y, char studentAnswers[]); //This prototype establishes a function that stores the student's answers into an array for future comparison/grading
+void storeAnswerKey(string x, int y, char answerKey[]); //This prototype establishes a function that stores the answer key into an array for future comparison
+void compareAnswers(char studentAnswers[], char answerKey[], int y, int wrongQuestionStorage[], char correctAnswerStorage[][2], int& z); //This prototype establishes a function that compares the two arrays
 
-void writeReport(int funcArray1[], char funcArray2[][2], int y, int z) {
+void writeReport(int funcArray1[], char funcArray2[][2], int y, int z) { // Ignore this
     cout << "                   Exam Report" << endl;
     cout << "Number of Questions Missed: " << z << endl;
     cout << "Missed Questions and Correct Answers:" << endl;
@@ -39,8 +39,11 @@ int main()
     storeStudentAnswers(studentAnswers, numberOfQuestions, studentScoreArray);
     storeAnswerKey(correctAnswers, numberOfQuestions, answerKeyArray);
 
-    int wrongAnswerArray[20];
-    char comparisonArray[20][2];
+    int wrongAnswerArray[20]; // An array that stores twenty zeroes. compareAnswers replaces Index with the Question number they got wrong
+    char comparisonArray[20][2]; //A 2D array that stores forty Xs. compareAnswers replaces the Index(related to wrongAnswerArray) with the Student and Answer Key's letters
+
+    //X and 0 are used as invalid values that are skipped in the function writeReport
+
 
     compareAnswers(studentScoreArray, answerKeyArray, numberOfQuestions, wrongAnswerArray, comparisonArray, wrongAnswers);
 
@@ -63,51 +66,51 @@ int main()
 
 
 
-void storeStudentAnswers(string x, int y, char funcArray[]) {
+void storeStudentAnswers(string x, int y, char studentAnswers[]) {
     ifstream inFile(x);
     char answer;
 
-    if (!inFile) {    //Warns the user that there was an error opening the file, then ends the whole program
+    if (!inFile) {
         cerr << "Error opening file!" << endl;
         exit;
     }
 
-    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {  //This ticks through all of the student's answers, reference-storing them into an array
-        inFile >> answer;
-        funcArray[incrementCount] = answer;
-    }
-    inFile.close();
-}
-
-void storeAnswerKey(string x, int y, char funcArray[]) {
-    ifstream inFile(x);
-    char answer;
-
-    if (!inFile) {    //Warns the user that there was an error opening the file, then ends the whole program
-        cerr << "Error opening file!" << endl;
-        exit;
-    }
-
-    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {  //This ticks through all of the answer key, reference-storing them into an array
-        inFile >> answer;
-        funcArray[incrementCount] = answer;
-    }
-    inFile.close();
-}
-void compareAnswers(char funcArray1[], char funcArray2[], int y, int funcArray3[], char funcArray4[][2], int& z) {
     for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
-        if (funcArray1[incrementCount] == funcArray2[incrementCount]) {
-            funcArray3[incrementCount] = 0;
-            funcArray4[incrementCount][0] = 'X';
-            funcArray4[incrementCount][1] = 'X';
+        inFile >> answer;
+        studentAnswers[incrementCount] = answer;
+    }
+    inFile.close();
+}
+
+void storeAnswerKey(string x, int y, char answerKey[]) {
+    ifstream inFile(x);
+    char answer;
+
+    if (!inFile) {
+        cerr << "Error opening file!" << endl;
+        exit;
+    }
+
+    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
+        inFile >> answer;
+        answerKey[incrementCount] = answer;
+    }
+    inFile.close();
+}
+void compareAnswers(char studentAnswers[], char answerKey[], int y, int wrongQuestionStorage[], char correctAnswerStorage[][2], int& z) {
+    for (int incrementCount = 0; incrementCount < y; ++incrementCount) {
+        if (studentAnswers[incrementCount] == answerKey[incrementCount]) { // Compares the student's answer with the answer key. If they are the same, it stores values I use to skip these correct answers
+            wrongQuestionStorage[incrementCount] = 0;
+            correctAnswerStorage[incrementCount][0] = 'X';
+            correctAnswerStorage[incrementCount][1] = 'X';
         }
-        else {
-            funcArray3[incrementCount] = incrementCount + 1;
-            cout << "Increment(" << incrementCount << ").   Array Value(" << funcArray3[incrementCount] << ")" << endl;    //This verifies that the function properly stores the specific question missed
-            funcArray4[incrementCount + 1][0] = funcArray1[incrementCount];
-            funcArray4[incrementCount + 1][1] = funcArray2[incrementCount];
-            cout << funcArray4[incrementCount + 1][0] << " and " << funcArray4[incrementCount + 1][1] << endl; //This verifies that each incorrect choice and correct answer are stored together
-            ++z; //And yet, the main function corrupts Line 111's verification
+        else { //If they're different, it stores...
+            wrongQuestionStorage[incrementCount] = incrementCount + 1; //The specific question that was missed
+            cout << "Increment(" << incrementCount << ").   Array Value(" << wrongQuestionStorage[incrementCount] << ")" << endl;    //This is simply visual verification that the questions are stored properly
+            correctAnswerStorage[incrementCount + 1][0] = studentAnswers[incrementCount]; //The student's (incorrect) answer
+            correctAnswerStorage[incrementCount + 1][1] = answerKey[incrementCount]; //The correct answer
+            cout << correctAnswerStorage[incrementCount + 1][0] << " and " << correctAnswerStorage[incrementCount + 1][1] << endl; //This is simply visual verification that the answers are stored together and properly
+            ++z;
         }
 
     }
